@@ -1,7 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GuiMain {
+public class GuiMain extends JFrame{
+
+    JButton startButton = new JButton("Start");
+    JButton stopButton = new JButton("Stop");
+    JButton continueButton = new JButton("Continue");
+    JButton pauseButton = new JButton("Pause");
     public GuiMain() {
 
         // Creates a new JFrame.
@@ -106,10 +111,6 @@ public class GuiMain {
         // Buttons for control
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        JButton startButton = new JButton("Start");
-        JButton stopButton = new JButton("Stop");
-        JButton continueButton = new JButton("Continue");
-        JButton pauseButton = new JButton("Pause");
         buttonPanel.add(startButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(5,0)));
         buttonPanel.add(stopButton);
@@ -146,8 +147,29 @@ public class GuiMain {
         mainPanel.add(BorderLayout.CENTER, carPanel);
         // Added the button panel to main panel
         mainPanel.add(BorderLayout.SOUTH, buttonPanel);
+        // Setting buttons actions
+        buttons();
         frame.add(mainPanel);
         frame.setVisible(true);
+    }
+    private void buttons(){
+        startButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
+        });
+
+        stopButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
+        });
+
+
+        continueButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
+        });
+
+
+        pauseButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
+        });
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new GuiMain());
