@@ -4,33 +4,31 @@ import java.awt.*;
 public class GuiMain extends JFrame {
 
 
-    static JLabel timeLabel = new JLabel(" 14:32");
-
-
+    public static JLabel timeLabel = new JLabel(" 14:32");
     JButton startButton = new JButton("Start");
     JButton stopButton = new JButton("Stop");
     JButton continueButton = new JButton("Continue");
     JButton pauseButton = new JButton("Pause");
 
-    public static JLabel intersection1Status = new JLabel("Green");
-    public static JLabel intersection2Status = new JLabel("Yellow");
-    static JLabel intersection3Status = new JLabel("Red");
-
-    public static JLabel car1Speed = new JLabel("100 mph");
-    public static JLabel car1Location = new JLabel("500, 0");
-    public static JLabel car2Speed = new JLabel("100 mph");
-    public static JLabel car2Location = new JLabel("1500, 0");
-    public static JLabel car3Speed = new JLabel("100 mph");
-    public static JLabel car3Location = new JLabel("2500, 0");
-
     TrafficControl worker = new TrafficControl();
-    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.RED, "tl1", 1000);
-    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2", 2000);
+    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.YELLOW, "tl1", 1000);
+    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.RED, "tl2", 2000);
     public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3", 3000);
+
+    public static JLabel intersection1Status = trafficLight1.label;
+    public static JLabel intersection2Status = trafficLight2.label;
+    public static JLabel intersection3Status = trafficLight3.label;
 
     public static Cars car1 = new Cars("car1", 800);
     public static Cars car2 = new Cars("car2", 1600);
     public static Cars car3 = new Cars("car3", 2500);
+
+    public static JLabel car1Speed = car1.carSpeed;
+    public static JLabel car1Location = car1.carLocation;
+    public static JLabel car2Speed = car2.carSpeed;
+    public static JLabel car2Location = car2.carLocation;
+    public static JLabel car3Speed = car3.carSpeed;
+    public static JLabel car3Location = car3.carLocation;
 
     public GuiMain() {
 
@@ -169,47 +167,58 @@ public class GuiMain extends JFrame {
         frame.setVisible(true);
     }
 
-    public void runThread() {
-
-    }
 
     private void buttons() {
+        continueButton.setEnabled(false);
+        pauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
         startButton.addActionListener(e -> {
-//            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
-
-
             if (!worker.isAlive()) {
                 trafficLight1.thread.start();
                 trafficLight2.thread.start();
                 trafficLight3.thread.start();
+                car1.thread.start();
+                car2.thread.start();
+                car3.thread.start();
                 worker.start();
 
-            } else {
-                //worker.resume();
+                startButton.setEnabled(false);
+                stopButton.setEnabled(true);
+                pauseButton.setEnabled(true);
 
             }
-            car1.thread.start();
-            car2.thread.start();
-            car3.thread.start();
-
         });
 
         stopButton.addActionListener(e -> {
             worker.cancel();
-            trafficLight1.cancel();
-            trafficLight2.cancel();
-            trafficLight3.cancel();
+            continueButton.setEnabled(false);
+            pauseButton.setEnabled(false);
+            stopButton.setEnabled(false);
         });
 
 
         continueButton.addActionListener(e -> {
-            //worker.resume();
+            trafficLight1.resumeTLight();
+            trafficLight2.resumeTLight();
+            trafficLight3.resumeTLight();
+            car1.resumeCar();
+            car2.resumeCar();
+            car3.resumeCar();
+            continueButton.setEnabled(false);
+            pauseButton.setEnabled(true);
+
         });
 
 
         pauseButton.addActionListener(e -> {
-            //worker.suspend();
-
+            trafficLight1.pauseTLight();
+            trafficLight2.pauseTLight();
+            trafficLight3.pauseTLight();
+            car1.pauseCar();
+            car2.pauseCar();
+            car3.pauseCar();
+            pauseButton.setEnabled(false);
+            continueButton.setEnabled(true);
         });
     }
 
