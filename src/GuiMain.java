@@ -3,26 +3,28 @@ import java.awt.*;
 
 public class GuiMain extends JFrame {
 
-
+    // JLabel for time
     public static JLabel timeLabel = new JLabel(" 14:32");
+    // Buttons for GUI control
     JButton startButton = new JButton("Start");
     JButton stopButton = new JButton("Stop");
     JButton continueButton = new JButton("Continue");
     JButton pauseButton = new JButton("Pause");
 
     TrafficControl worker = new TrafficControl();
-    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.YELLOW, "tl1", 1000);
-    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.RED, "tl2", 2000);
-    public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3", 3000);
-
-    public static JLabel intersection1Status = trafficLight1.label;
-    public static JLabel intersection2Status = trafficLight2.label;
-    public static JLabel intersection3Status = trafficLight3.label;
-
+    // Traffic lights
+    public static TrafficLights trafficLights1 = new TrafficLights(TrafficLightColor.YELLOW, "tl1", 1000);
+    public static TrafficLights trafficLights2 = new TrafficLights(TrafficLightColor.RED, "tl2", 2000);
+    public static TrafficLights trafficLights3 = new TrafficLights(TrafficLightColor.GREEN, "tl3", 3000);
+    // Traffic light related JLabels
+    public static JLabel intersection1Status = trafficLights1.label;
+    public static JLabel intersection2Status = trafficLights2.label;
+    public static JLabel intersection3Status = trafficLights3.label;
+    // Cars
     public static Cars car1 = new Cars("car1", 800);
     public static Cars car2 = new Cars("car2", 1600);
     public static Cars car3 = new Cars("car3", 2500);
-
+    // Car related JLabels
     public static JLabel car1Speed = car1.carSpeed;
     public static JLabel car1Location = car1.carLocation;
     public static JLabel car2Speed = car2.carSpeed;
@@ -167,16 +169,16 @@ public class GuiMain extends JFrame {
         frame.setVisible(true);
     }
 
-
     private void buttons() {
         continueButton.setEnabled(false);
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
+        // Start button
         startButton.addActionListener(e -> {
             if (!worker.isAlive()) {
-                trafficLight1.thread.start();
-                trafficLight2.thread.start();
-                trafficLight3.thread.start();
+                trafficLights1.thread.start();
+                trafficLights2.thread.start();
+                trafficLights3.thread.start();
                 car1.thread.start();
                 car2.thread.start();
                 car3.thread.start();
@@ -188,7 +190,7 @@ public class GuiMain extends JFrame {
 
             }
         });
-
+        // Stop button
         stopButton.addActionListener(e -> {
             worker.cancel();
             continueButton.setEnabled(false);
@@ -196,11 +198,11 @@ public class GuiMain extends JFrame {
             stopButton.setEnabled(false);
         });
 
-
+        // Continue button
         continueButton.addActionListener(e -> {
-            trafficLight1.resumeTLight();
-            trafficLight2.resumeTLight();
-            trafficLight3.resumeTLight();
+            trafficLights1.resumeTLight();
+            trafficLights2.resumeTLight();
+            trafficLights3.resumeTLight();
             car1.resumeCar();
             car2.resumeCar();
             car3.resumeCar();
@@ -209,11 +211,11 @@ public class GuiMain extends JFrame {
 
         });
 
-
+        // Pause Button
         pauseButton.addActionListener(e -> {
-            trafficLight1.pauseTLight();
-            trafficLight2.pauseTLight();
-            trafficLight3.pauseTLight();
+            trafficLights1.pauseTLight();
+            trafficLights2.pauseTLight();
+            trafficLights3.pauseTLight();
             car1.pauseCar();
             car2.pauseCar();
             car3.pauseCar();

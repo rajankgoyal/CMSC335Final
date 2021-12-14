@@ -6,7 +6,7 @@ public class Cars implements Runnable {
     String carName;
     final Thread thread;
     int location;
-    int locationAddition;
+    int speedAddition;
     JLabel carLocation;
     JLabel carSpeed;
 
@@ -15,7 +15,7 @@ public class Cars implements Runnable {
         this.thread = new Thread(this, carName);
         this.location = location;
         carRunner = true;
-        locationAddition = 5;
+        speedAddition = 5;
         isCarRunning = true;
         carLocation = new JLabel(location + ", 0");
         carSpeed = new JLabel("0 mph");
@@ -42,33 +42,28 @@ public class Cars implements Runnable {
             }
 
 
-            location += locationAddition;
+            location += speedAddition;
             carLocation.setText(location + ", 0");
         }
     }
 
-    // Stop the car.
+    // Temporarily suspends the car.
     public void pauseCar() {
         carSpeed.setText("0 mph");
         isCarRunning = false;
     }
 
-
-    // Restart the car.
+    // Resumes temporarily suspended car.
     public synchronized void resumeCar() {
         carSpeed.setText("100 mph");
         isCarRunning = true;
         notify();
         System.out.println("Car Thread is resumed - " + thread.getName());
     }
-
+    // Stop the car thread.
     public void stopCar() {
         carRunner = false;
         carSpeed.setText("0 mph");
         System.out.println("Thread stopped for car - " + thread.getName());
-    }
-
-    public int getLocationAddition() {
-        return locationAddition;
     }
 }
