@@ -24,11 +24,11 @@ public class GuiMain extends JFrame {
     public static JLabel car3Location = new JLabel("2500, 0");
 
     TrafficControl worker = new TrafficControl();
-    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1", 1000);
+    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.RED, "tl1", 1000);
     public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2", 2000);
     public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3", 3000);
 
-    public static Cars car1 = new Cars("car1", 500);
+    public static Cars car1 = new Cars("car1", 800);
     public static Cars car2 = new Cars("car2", 1600);
     public static Cars car3 = new Cars("car3", 2500);
 

@@ -33,14 +33,14 @@ public class Cars implements Runnable {
     }
 
     // Stop the car.
-    public void cancel() {
+    public void pauseCar() {
         locationAddition = 0;
         isCarRunning = false;
     }
 
 
     // Restart the car.
-    public void restart() {
+    public void restartCar() {
         locationAddition = 5;
         isCarRunning = true;
     }
