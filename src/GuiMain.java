@@ -23,7 +23,7 @@ public class GuiMain extends JFrame {
     JLabel car3Speed = new JLabel("100 mph");
     public static JLabel car3Location = new JLabel("2500, 0");
 
-    WorkerThread worker = new WorkerThread();
+    TrafficControl trafficControl = new TrafficControl();
     public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1");
     public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2");
     public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3");
@@ -178,14 +178,14 @@ public class GuiMain extends JFrame {
 //            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
 
 
-            if (!worker.isAlive()) {
+            if (!trafficControl.isAlive()) {
                 trafficLight1.thread.start();
                 trafficLight2.thread.start();
                 trafficLight3.thread.start();
-                worker.start();
+                trafficControl.start();
 
             } else {
-                worker.resume();
+                trafficControl.resume();
 
             }
             car1.thread.start();
@@ -195,7 +195,7 @@ public class GuiMain extends JFrame {
         });
 
         stopButton.addActionListener(e -> {
-            worker.cancel();
+            trafficControl.cancel();
             trafficLight1.cancel();
             trafficLight2.cancel();
             trafficLight3.cancel();
@@ -203,12 +203,12 @@ public class GuiMain extends JFrame {
 
 
         continueButton.addActionListener(e -> {
-            worker.resume();
+            trafficControl.resume();
         });
 
 
         pauseButton.addActionListener(e -> {
-            worker.suspend();
+            trafficControl.suspend();
 
         });
     }
@@ -221,72 +221,3 @@ public class GuiMain extends JFrame {
     }
 }
 
-class WorkerThread extends Thread {
-    boolean runner = true;
-
-    @Override
-    public void run() {
-        while (runner) {
-
-            String trafficLight1 = GuiMain.trafficLight1.getColor().toString();
-            String trafficLight2 = GuiMain.trafficLight2.getColor().toString();
-            String trafficLight3 = GuiMain.trafficLight3.getColor().toString();
-            GuiMain.intersection1Status.setText(trafficLight1);
-            GuiMain.intersection2Status.setText(trafficLight2);
-            GuiMain.intersection3Status.setText(trafficLight3);
-
-            int car1Location = GuiMain.car1.location;
-            GuiMain.car1Location.setText(car1Location + ", 0");
-
-            int car2Location = GuiMain.car2.location;
-            GuiMain.car2Location.setText(car2Location + ", 0");
-
-            int car3Location = GuiMain.car3.location;
-            GuiMain.car3Location.setText(car3Location + ", 0");
-
-
-            if (trafficLight1.equals("RED")) {
-                if(car1Location == 990)
-                    GuiMain.car1.cancel();
-                if(car2Location == 990)
-                    GuiMain.car2.cancel();
-                if(car3Location == 990)
-                    GuiMain.car3.cancel();
-            }
-
-            if (trafficLight2.equals("RED")) {
-                if(car1Location == 1980)
-                    GuiMain.car1.cancel();
-                if(car2Location == 1980)
-                    GuiMain.car2.cancel();
-                if(car3Location == 1980)
-                    GuiMain.car3.cancel();
-            }
-
-            if (trafficLight3.equals("RED")) {
-                if(car1Location == 2970)
-                    GuiMain.car1.cancel();
-                if(car2Location == 2970)
-                    GuiMain.car2.cancel();
-                if(car3Location == 2970)
-                    GuiMain.car3.cancel();
-            }
-
-
-            if (trafficLight1.equals("GREEN")) {
-                if(!GuiMain.car1.isCarRunning)
-                    GuiMain.car1.restart();
-                if(!GuiMain.car2.isCarRunning)
-                    GuiMain.car2.restart();
-                if(!GuiMain.car3.isCarRunning)
-                    GuiMain.car3.restart();
-
-            }
-
-        }
-    }
-
-    synchronized void cancel() {
-        runner = false;
-    }
-}
