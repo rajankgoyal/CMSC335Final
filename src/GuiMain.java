@@ -1,3 +1,9 @@
+/*
+        Name - GuiMain.java
+        Date - 12/14/2021
+        Author - Rajan Goyal
+        Purpose - Creates the GUI for the intersection project
+*/
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,16 +19,16 @@ public class GuiMain extends JFrame {
 
     TrafficControl worker = new TrafficControl();
     // Traffic lights
-    public static TrafficLights trafficLights1 = new TrafficLights(TrafficLightColor.YELLOW, "tl1", 1000);
-    public static TrafficLights trafficLights2 = new TrafficLights(TrafficLightColor.RED, "tl2", 2000);
-    public static TrafficLights trafficLights3 = new TrafficLights(TrafficLightColor.GREEN, "tl3", 3000);
+    public static TrafficLights trafficLights1 = new TrafficLights(LightColor.YELLOW, "tl1", 1000);
+    public static TrafficLights trafficLights2 = new TrafficLights(LightColor.RED, "tl2", 2000);
+    public static TrafficLights trafficLights3 = new TrafficLights(LightColor.GREEN, "tl3", 3000);
     // Traffic light related JLabels
     public static JLabel intersection1Status = trafficLights1.label;
     public static JLabel intersection2Status = trafficLights2.label;
     public static JLabel intersection3Status = trafficLights3.label;
     // Cars
     public static Cars car1 = new Cars("car1", 800);
-    public static Cars car2 = new Cars("car2", 1600);
+    public static Cars car2 = new Cars("car2", 1700);
     public static Cars car3 = new Cars("car3", 2500);
     // Car related JLabels
     public static JLabel car1Speed = car1.carSpeed;
@@ -192,7 +198,7 @@ public class GuiMain extends JFrame {
         });
         // Stop button
         stopButton.addActionListener(e -> {
-            worker.cancel();
+            worker.stopAll();
             continueButton.setEnabled(false);
             pauseButton.setEnabled(false);
             stopButton.setEnabled(false);
@@ -231,4 +237,3 @@ public class GuiMain extends JFrame {
 
     }
 }
-

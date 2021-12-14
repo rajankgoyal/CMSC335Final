@@ -1,14 +1,21 @@
+/*
+        Name - Cars.java
+        Date - 12/14/2021
+        Author - Rajan Goyal
+        Purpose - Creates a car with a runnable thread. Accompanying some helper methods
+        Which helps control the car.
+*/
 import javax.swing.*;
 
 public class Cars implements Runnable {
+    int location;
+    int speedAddition;
     boolean carRunner;
     boolean isCarRunning;
     String carName;
-    final Thread thread;
-    int location;
-    int speedAddition;
     JLabel carLocation;
     JLabel carSpeed;
+    final Thread thread;
 
     public Cars(String carName, int location) {
         this.carName = carName;
@@ -23,12 +30,11 @@ public class Cars implements Runnable {
 
     @Override
     public void run() {
-        carSpeed.setText("100 mph");
+        carSpeed.setText("120 mph");
         while (carRunner) {
             //Resets cars back to 0 if it reaches outside the simulation window.
             if (location > 3500)
                 location = 0;
-
             try {
                 Thread.sleep(100);
                 synchronized (this) {
@@ -40,7 +46,6 @@ public class Cars implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
 
             location += speedAddition;
             carLocation.setText(location + ", 0");
@@ -55,7 +60,7 @@ public class Cars implements Runnable {
 
     // Resumes temporarily suspended car.
     public synchronized void resumeCar() {
-        carSpeed.setText("100 mph");
+        carSpeed.setText("120 mph");
         isCarRunning = true;
         notify();
         System.out.println("Car Thread is resumed - " + thread.getName());

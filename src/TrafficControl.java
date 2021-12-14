@@ -1,3 +1,10 @@
+/*
+        Name - TrafficControl.java
+        Date - 12/14/2021
+        Author - Rajan Goyal
+        Purpose - Controls the flow of the traffic. Switches individual car
+        to suspend or resume based on their location and status of the traffic light
+*/
 class TrafficControl extends Thread {
     boolean runner = true;
     // Traffic lights
@@ -41,7 +48,7 @@ class TrafficControl extends Thread {
         }
     }
     // Method to stop all the threads.
-    synchronized void cancel() {
+    synchronized void stopAll() {
         // Terminates traffic lights
         tl1.stopTL();
         tl2.stopTL();

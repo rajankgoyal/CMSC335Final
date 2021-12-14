@@ -1,23 +1,30 @@
+/*
+        Name - TrafficLights.java
+        Date - 12/14/2021
+        Author - Rajan Goyal
+        Purpose - Creates a traffic light with a runnable thread. Accompanying some helper methods
+        Which helps control the traffic light.
+*/
 import javax.swing.*;
 
 // Enum for three colors of Traffic light
-enum TrafficLightColor {
+enum LightColor {
     RED, GREEN, YELLOW
 }
 
 public class TrafficLights implements Runnable {
-    private TrafficLightColor trafficLightColor; // Current color of Traffic light.
+    private LightColor lightColor; // Current color of Traffic light.
     private boolean stop = false; // if True terminates the Traffic light thread
     boolean lightSuspended = false; // Used to monitor if the light is set to suspend
-    private int location; // Location of the light
+    private final int location; // Location of the light
     JLabel label; // Used to return a JLabel for intersection GUI
     Thread thread;
 
-    TrafficLights(TrafficLightColor init, String name, int location) {
-        trafficLightColor = init;
+    TrafficLights(LightColor init, String name, int location) {
+        lightColor = init;
         thread = new Thread(this, name);
         this.location = location;
-        label = new JLabel(trafficLightColor.toString());
+        label = new JLabel(lightColor.toString());
     }
 
     // Starts the light
@@ -25,7 +32,7 @@ public class TrafficLights implements Runnable {
         while (!stop) {
 
             try {
-                switch (trafficLightColor) {
+                switch (lightColor) {
                     // green for min 2 max 8 seconds
                     case GREEN -> Thread.sleep((int) Math.floor(Math.random()*(10000-2000+1)+2000));
                     // yellow for 1 second
@@ -49,17 +56,17 @@ public class TrafficLights implements Runnable {
 
     // Changes color.
     synchronized void changeColor() {
-        switch (trafficLightColor) {
-            case RED -> trafficLightColor = TrafficLightColor.GREEN;
-            case YELLOW -> trafficLightColor = TrafficLightColor.RED;
-            case GREEN -> trafficLightColor = TrafficLightColor.YELLOW;
+        switch (lightColor) {
+            case RED -> lightColor = LightColor.GREEN;
+            case YELLOW -> lightColor = LightColor.RED;
+            case GREEN -> lightColor = LightColor.YELLOW;
         }
-        label.setText(trafficLightColor.toString());
+        label.setText(lightColor.toString());
     }
 
     // Return current color.
-    synchronized TrafficLightColor getColor() {
-        return trafficLightColor;
+    synchronized LightColor getColor() {
+        return lightColor;
     }
 
     // Stop the traffic light.
@@ -81,6 +88,4 @@ public class TrafficLights implements Runnable {
         notify();
         System.out.println("Traffic light Thread is resumed - " + thread.getName());
     }
-
-
 }
