@@ -26,17 +26,16 @@ public class TrafficLight implements Runnable {
   // Start up the light. 
   public void run() {
     while(!stop) {
-      System.out.println(tlc);
       try {
         switch(tlc) {
           case GREEN: 
-            Thread.sleep(1100); // green for 10 seconds
+            Thread.sleep(5500); // green for 10 seconds
             break; 
           case YELLOW: 
             Thread.sleep(500);  // yellow for 2 seconds
             break; 
           case RED: 
-            Thread.sleep(1000); // red for 12 seconds
+            Thread.sleep(8000); // red for 12 seconds
             break; 
         } 
       } catch(InterruptedException exc) { 

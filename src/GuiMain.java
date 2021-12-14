@@ -13,20 +13,24 @@ public class GuiMain extends JFrame {
     JButton pauseButton = new JButton("Pause");
 
     public static JLabel intersection1Status = new JLabel("Green");
-    static JLabel intersection2Status = new JLabel("Yellow");
+    public static JLabel intersection2Status = new JLabel("Yellow");
     static JLabel intersection3Status = new JLabel("Red");
 
     JLabel car1Speed = new JLabel("100 mph");
-    JLabel car1Location = new JLabel("500, 0");
+    public static JLabel car1Location = new JLabel("500, 0");
     JLabel car2Speed = new JLabel("100 mph");
-    JLabel car2Location = new JLabel("1500, 0");
+    public static JLabel car2Location = new JLabel("1500, 0");
     JLabel car3Speed = new JLabel("100 mph");
-    JLabel car3Location = new JLabel("2500, 0");
+    public static JLabel car3Location = new JLabel("2500, 0");
 
     WorkerThread worker = new WorkerThread();
     public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1");
-    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.YELLOW, "tl2");
-    public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.RED, "tl3");
+    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2");
+    public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3");
+
+    public static Cars car1 = new Cars("car1", 500);
+    public static Cars car2 = new Cars("car2", 1500);
+    public static Cars car3 = new Cars("car3", 2500);
 
     public GuiMain() {
 
@@ -184,6 +188,9 @@ public class GuiMain extends JFrame {
                 worker.resume();
 
             }
+            car1.thread.start();
+            car2.thread.start();
+            car3.thread.start();
 
         });
 
@@ -216,22 +223,70 @@ public class GuiMain extends JFrame {
 
 class WorkerThread extends Thread {
     boolean runner = true;
+
     @Override
     public void run() {
         while (runner) {
-            GuiMain.intersection1Status.setText(GuiMain.trafficLight1.getColor().toString());
-            GuiMain.trafficLight1.waitForChange();
 
-            GuiMain.intersection2Status.setText(GuiMain.trafficLight2.getColor().toString());
-            GuiMain.trafficLight2.waitForChange();
+            String trafficLight1 = GuiMain.trafficLight1.getColor().toString();
+            String trafficLight2 = GuiMain.trafficLight2.getColor().toString();
+            String trafficLight3 = GuiMain.trafficLight3.getColor().toString();
+            GuiMain.intersection1Status.setText(trafficLight1);
+            GuiMain.intersection2Status.setText(trafficLight2);
+            GuiMain.intersection3Status.setText(trafficLight3);
 
-            GuiMain.intersection3Status.setText(GuiMain.trafficLight3.getColor().toString());
-            GuiMain.trafficLight3.waitForChange();
+            int car1Location = GuiMain.car1.location;
+            GuiMain.car1Location.setText(car1Location + ", 0");
+
+            int car2Location = GuiMain.car2.location;
+            GuiMain.car2Location.setText(car2Location + ", 0");
+
+            int car3Location = GuiMain.car3.location;
+            GuiMain.car3Location.setText(car3Location + ", 0");
+
+
+            if (trafficLight1.equals("RED")) {
+                if(car1Location == 990)
+                    GuiMain.car1.cancel();
+                if(car2Location == 990)
+                    GuiMain.car2.cancel();
+                if(car3Location == 990)
+                    GuiMain.car3.cancel();
+            }
+
+            if (trafficLight2.equals("RED")) {
+                if(car1Location == 1980)
+                    GuiMain.car1.cancel();
+                if(car2Location == 1980)
+                    GuiMain.car2.cancel();
+                if(car3Location == 1980)
+                    GuiMain.car3.cancel();
+            }
+
+            if (trafficLight3.equals("RED")) {
+                if(car1Location == 2970)
+                    GuiMain.car1.cancel();
+                if(car2Location == 2970)
+                    GuiMain.car2.cancel();
+                if(car3Location == 2970)
+                    GuiMain.car3.cancel();
+            }
+
+
+            if (trafficLight1.equals("GREEN")) {
+                if(!GuiMain.car1.isCarRunning)
+                    GuiMain.car1.restart();
+                if(!GuiMain.car2.isCarRunning)
+                    GuiMain.car2.restart();
+                if(!GuiMain.car3.isCarRunning)
+                    GuiMain.car3.restart();
+
+            }
+
         }
-
-        //GuiMain.tl.cancel();
     }
-    synchronized void cancel(){
+
+    synchronized void cancel() {
         runner = false;
     }
 }
