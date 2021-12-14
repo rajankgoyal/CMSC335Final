@@ -23,13 +23,10 @@ public class GuiMain extends JFrame {
     JLabel car3Speed = new JLabel("100 mph");
     JLabel car3Location = new JLabel("2500, 0");
 
-    Thread worker = new WorkerThread();
+    WorkerThread worker = new WorkerThread();
     public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1");
-    //public static Thread trafficLightThread1 = new Thread(trafficLight1);
     public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.YELLOW, "tl2");
-    //public static Thread trafficLightThread2 = new Thread(trafficLight2);
     public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.RED, "tl3");
-    //public static Thread trafficLightThread3 = new Thread(trafficLight3);
 
     public GuiMain() {
 
@@ -176,20 +173,25 @@ public class GuiMain extends JFrame {
         startButton.addActionListener(e -> {
 //            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
 
-            trafficLight1.thread.start();
-            trafficLight2.thread.start();
-            trafficLight3.thread.start();
+
             if (!worker.isAlive()) {
+                trafficLight1.thread.start();
+                trafficLight2.thread.start();
+                trafficLight3.thread.start();
                 worker.start();
 
             } else {
                 worker.resume();
+
             }
 
         });
 
         stopButton.addActionListener(e -> {
-            worker.suspend();
+            worker.cancel();
+            trafficLight1.cancel();
+            trafficLight2.cancel();
+            trafficLight3.cancel();
         });
 
 
@@ -213,9 +215,10 @@ public class GuiMain extends JFrame {
 }
 
 class WorkerThread extends Thread {
+    boolean runner = true;
     @Override
     public void run() {
-        while (true) {
+        while (runner) {
             GuiMain.intersection1Status.setText(GuiMain.trafficLight1.getColor().toString());
             GuiMain.trafficLight1.waitForChange();
 
@@ -227,5 +230,8 @@ class WorkerThread extends Thread {
         }
 
         //GuiMain.tl.cancel();
+    }
+    synchronized void cancel(){
+        runner = false;
     }
 }
