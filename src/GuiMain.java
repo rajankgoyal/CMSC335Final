@@ -3,10 +3,23 @@ import java.awt.*;
 
 public class GuiMain extends JFrame{
 
+    static JLabel timeLabel = new JLabel(" 14:32");
+
     JButton startButton = new JButton("Start");
     JButton stopButton = new JButton("Stop");
     JButton continueButton = new JButton("Continue");
     JButton pauseButton = new JButton("Pause");
+
+    JLabel intersection1Status = new JLabel("Green");
+    JLabel intersection2Status = new JLabel("Yellow");
+    JLabel intersection3Status = new JLabel("Red");
+
+    JLabel car1Speed = new JLabel("100 mph");
+    JLabel car1Location = new JLabel("500, 0");
+    JLabel car2Speed = new JLabel("100 mph");
+    JLabel car2Location = new JLabel("1500, 0");
+    JLabel car3Speed = new JLabel("100 mph");
+    JLabel car3Location = new JLabel("2500, 0");
     public GuiMain() {
 
         // Creates a new JFrame.
@@ -23,7 +36,7 @@ public class GuiMain extends JFrame{
         timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.LINE_AXIS));
         JLabel currentTimeLabel = new JLabel("Current Time : ");
         timePanel.add(currentTimeLabel);
-        JLabel timeLabel = new JLabel(" 14:32");
+
         timePanel.add(timeLabel);
 
         // Intersection 1 panel
@@ -31,7 +44,6 @@ public class GuiMain extends JFrame{
         intersectionPanel1.setLayout(new BoxLayout(intersectionPanel1, BoxLayout.PAGE_AXIS));
         JLabel intersection1 = new JLabel("Intersection 1");
         JLabel intersectionDis1 = new JLabel("1000 Meters");
-        JLabel intersection1Status = new JLabel("Green");
         intersectionPanel1.add(intersection1);
         intersectionPanel1.add(intersectionDis1);
         intersectionPanel1.add(Box.createRigidArea(new Dimension(0,10)));
@@ -42,7 +54,6 @@ public class GuiMain extends JFrame{
         intersectionPanel2.setLayout(new BoxLayout(intersectionPanel2, BoxLayout.PAGE_AXIS));
         JLabel intersection2 = new JLabel("Intersection 2");
         JLabel intersectionDis2 = new JLabel("2000 Meters");
-        JLabel intersection2Status = new JLabel("Yellow");
         intersectionPanel2.add(intersection2);
         intersectionPanel2.add(intersectionDis2);
         intersectionPanel2.add(Box.createRigidArea(new Dimension(0,10)));
@@ -53,7 +64,6 @@ public class GuiMain extends JFrame{
         intersectionPanel3.setLayout(new BoxLayout(intersectionPanel3, BoxLayout.PAGE_AXIS));
         JLabel intersection3 = new JLabel("Intersection 3");
         JLabel intersectionDis3 = new JLabel("3000 Meters");
-        JLabel intersection3Status = new JLabel("Red");
         intersectionPanel3.add(intersection3);
         intersectionPanel3.add(intersectionDis3);
         intersectionPanel3.add(Box.createRigidArea(new Dimension(0,10)));
@@ -65,9 +75,7 @@ public class GuiMain extends JFrame{
         carPanel1.setLayout(new BoxLayout(carPanel1, BoxLayout.PAGE_AXIS));
         JLabel car1 = new JLabel("Car 1");
         JLabel carSpeedDis1 = new JLabel("Speed");
-        JLabel car1Speed = new JLabel("100 mph");
         JLabel carLocationDis1 = new JLabel("Location");
-        JLabel car1Location = new JLabel("500, 0");
         carPanel1.add(car1);
         carPanel1.add(Box.createRigidArea(new Dimension(0,10)));
         carPanel1.add(carSpeedDis1);
@@ -81,9 +89,7 @@ public class GuiMain extends JFrame{
         carPanel2.setLayout(new BoxLayout(carPanel2, BoxLayout.PAGE_AXIS));
         JLabel car2 = new JLabel("Car 2");
         JLabel carSpeedDis2 = new JLabel("Speed");
-        JLabel car2Speed = new JLabel("100 mph");
         JLabel carLocationDis2 = new JLabel("Location");
-        JLabel car2Location = new JLabel("1500, 0");
         carPanel2.add(car2);
         carPanel2.add(Box.createRigidArea(new Dimension(0,10)));
         carPanel2.add(carSpeedDis2);
@@ -97,9 +103,7 @@ public class GuiMain extends JFrame{
         carPanel3.setLayout(new BoxLayout(carPanel3, BoxLayout.PAGE_AXIS));
         JLabel car3 = new JLabel("Car 3");
         JLabel carSpeedDis3 = new JLabel("Speed");
-        JLabel car3Speed = new JLabel("100 mph");
         JLabel carLocationDis3 = new JLabel("Location");
-        JLabel car3Location = new JLabel("2500, 0");
         carPanel3.add(car3);
         carPanel3.add(Box.createRigidArea(new Dimension(0,10)));
         carPanel3.add(carSpeedDis3);
@@ -155,6 +159,7 @@ public class GuiMain extends JFrame{
     private void buttons(){
         startButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
+
         });
 
         stopButton.addActionListener(e -> {
@@ -172,6 +177,8 @@ public class GuiMain extends JFrame{
         });
     }
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GuiMain());
+        SwingUtilities.invokeLater(GuiMain::new);
+        Thread timer = new Thread(new Timer());
+        timer.start();
     }
 }
