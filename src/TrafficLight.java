@@ -13,10 +13,12 @@ public class TrafficLight implements Runnable {
   private TrafficLightColor tlc; // holds the current traffic light color 
   private boolean stop = false; // set to true to stop the simulation 
   private boolean changed = false; // true when the light has changed
+  private int location;
   Thread thread;
-  TrafficLight(TrafficLightColor init, String name) {
+  TrafficLight(TrafficLightColor init, String name, int location) {
     tlc = init;
     thread= new Thread( this, name);
+    this.location = location;
   } 
  
   TrafficLight() {
@@ -81,6 +83,9 @@ public class TrafficLight implements Runnable {
   // Stop the traffic light. 
   synchronized void cancel() { 
     stop = true; 
+  }
+  public int getLocation(){
+    return location;
   }
 
 

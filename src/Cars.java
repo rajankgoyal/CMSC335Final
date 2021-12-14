@@ -28,7 +28,7 @@ public class Cars implements Runnable {
                 e.printStackTrace();
             }
             location += locationAddition;
-            System.out.println(location);
+//            System.out.println(location);
         }
     }
 

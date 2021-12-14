@@ -21,6 +21,21 @@ class TrafficControl extends Thread {
             int car3Location = GuiMain.car3.location;
             GuiMain.car3Location.setText(car3Location + ", 0");
 
+            if(GuiMain.car1.isCarRunning)
+                GuiMain.car1Speed.setText("100 mph");
+            else
+                GuiMain.car1Speed.setText("0 mph");
+
+            if(GuiMain.car2.isCarRunning)
+                GuiMain.car2Speed.setText("100 mph");
+            else
+                GuiMain.car2Speed.setText("0 mph");
+
+
+            if(GuiMain.car3.isCarRunning)
+                GuiMain.car3Speed.setText("100 mph");
+            else
+                GuiMain.car3Speed.setText("0 mph");
 
             if (trafficLight1.equals("RED")) {
                 if (car1Location == 990)

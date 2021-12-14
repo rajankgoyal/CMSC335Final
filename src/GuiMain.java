@@ -16,20 +16,20 @@ public class GuiMain extends JFrame {
     public static JLabel intersection2Status = new JLabel("Yellow");
     static JLabel intersection3Status = new JLabel("Red");
 
-    JLabel car1Speed = new JLabel("100 mph");
+    public static JLabel car1Speed = new JLabel("100 mph");
     public static JLabel car1Location = new JLabel("500, 0");
-    JLabel car2Speed = new JLabel("100 mph");
+    public static JLabel car2Speed = new JLabel("100 mph");
     public static JLabel car2Location = new JLabel("1500, 0");
-    JLabel car3Speed = new JLabel("100 mph");
+    public static JLabel car3Speed = new JLabel("100 mph");
     public static JLabel car3Location = new JLabel("2500, 0");
 
-    TrafficControl trafficControl = new TrafficControl();
-    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1");
-    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2");
-    public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3");
+    TrafficControl worker = new TrafficControl();
+    public static TrafficLight trafficLight1 = new TrafficLight(TrafficLightColor.GREEN, "tl1", 1000);
+    public static TrafficLight trafficLight2 = new TrafficLight(TrafficLightColor.GREEN, "tl2", 2000);
+    public static TrafficLight trafficLight3 = new TrafficLight(TrafficLightColor.GREEN, "tl3", 3000);
 
     public static Cars car1 = new Cars("car1", 500);
-    public static Cars car2 = new Cars("car2", 1500);
+    public static Cars car2 = new Cars("car2", 1600);
     public static Cars car3 = new Cars("car3", 2500);
 
     public GuiMain() {
@@ -178,14 +178,14 @@ public class GuiMain extends JFrame {
 //            JOptionPane.showMessageDialog(null, "Only enter positive numerical value");
 
 
-            if (!trafficControl.isAlive()) {
+            if (!worker.isAlive()) {
                 trafficLight1.thread.start();
                 trafficLight2.thread.start();
                 trafficLight3.thread.start();
-                trafficControl.start();
+                worker.start();
 
             } else {
-                trafficControl.resume();
+                //worker.resume();
 
             }
             car1.thread.start();
@@ -195,7 +195,7 @@ public class GuiMain extends JFrame {
         });
 
         stopButton.addActionListener(e -> {
-            trafficControl.cancel();
+            worker.cancel();
             trafficLight1.cancel();
             trafficLight2.cancel();
             trafficLight3.cancel();
@@ -203,12 +203,12 @@ public class GuiMain extends JFrame {
 
 
         continueButton.addActionListener(e -> {
-            trafficControl.resume();
+            //worker.resume();
         });
 
 
         pauseButton.addActionListener(e -> {
-            trafficControl.suspend();
+            //worker.suspend();
 
         });
     }
